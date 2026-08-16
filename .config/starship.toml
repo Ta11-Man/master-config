@@ -1,0 +1,62 @@
+# ~/.config/starship.toml
+add_newline = false
+
+# Palette Definitions (using modern blue hues)
+# Backgrounds: lightest_blue: #89b4fa, medium_blue: #74c7ec, darkest_blue: #1e1e2e
+# Foregrounds: dark_text: #11111b, light_text: #cdd6f4
+
+format = """
+[░▒▓](#74c7ec)\
+[ 󰣇 Arch ](bg:#74c7ec fg:#11111b)\
+[](bg:#89b4fa fg:#74c7ec)\
+$hostname\
+$directory\
+[](fg:#89b4fa bg:#313244)\
+$git_branch\
+$git_status\
+[](fg:#313244 bg:#1e1e2e)\
+$time\
+[ ](fg:#1e1e2e)\
+$character"""
+
+[directory]
+# Blue background (#89b4fa)
+style = "fg:#11111b bg:#89b4fa"
+format = "[ $path ]($style)"
+truncation_length = 3
+truncation_symbol = "…/"
+
+[git_branch]
+# Darker blue background (#313244)
+style = "bg:#313244"
+format = '[[ $symbol $branch ](fg:#89b4fa bg:#313244)]($style)'
+symbol = " "
+
+[git_status]
+# Keeps red text for status, on the dark background
+style = "bg:#313244"
+format = '[[($all_status$ahead_behind )](fg:#f38ba8 bg:#313244)]($style)'
+
+[time]
+disabled = false
+time_format = "%R"
+# Deep navy/black background (#1e1e2e)
+style = "bg:#1e1e2e"
+format = '[[  $time ](fg:#cdd6f4 bg:#1e1e2e)]($style)'
+
+[character]
+success_symbol = "[❯](bold green)"
+error_symbol = "[❯](bold red)"
+
+[docker_context]
+disabled = true
+
+[package]
+disabled = true
+
+[hostname]
+ssh_only = true               # Only show when inside an active SSH connection
+format = "[$ssh_symbol$hostname ]($style)"
+ssh_symbol = "󰌘 "             # Or " ", " "
+style = "bg:#89b4fa fg:#11111b bold"
+trim_at = ".cs.purdue.edu"   # Strips domain suffixes so 'data.cs.purdue.edu' becomes 'data'

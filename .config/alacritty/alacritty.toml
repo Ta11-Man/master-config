@@ -1,0 +1,23 @@
+[window]
+title = "Terminal"
+# Options: "Full" (default), "None" (frameless), "Transparent" (macOS only)
+decorations = "Full"
+
+# Recommended: Add extra padding so text isn't pressed against the top edge
+padding = { x = 12, y = 12 }
+dynamic_padding = true
+opacity = 0.90
+blur = true
+
+[font]
+size = 11.0
+normal = { family = "Hurmit Nerd Font", style = "Regular" }
+
+# If launching straight into WSL2:
+[terminal.shell]
+program = "wsl.exe"
+args = ["--cd", "~"]
+
+[colors.primary]
+background = "#053642"
+foreground = "#B1C8D1"
