@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+# Ensure standard unaliased system utilities inside the installer
+unalias -a 2>/dev/null || true
+
 # Setup directories
 BIN_DIR="${HOME}/.local/bin"
 mkdir -p "${BIN_DIR}" "${HOME}/.config" "${HOME}/.local/share"
@@ -29,7 +32,7 @@ if [ -d "${SCRIPT_DIR}/.git" ]; then
 fi
 
 # ==============================================================================
-# 2. User-Space Binary Provisioning (Zero Sudo)
+# 2. User-Space Binary Provisioning
 # ==============================================================================
 
 # Starship
@@ -115,9 +118,9 @@ fi
 log "Symlinking configuration files..."
 
 # Root home dotfiles
-ln -sf "${SCRIPT_DIR}/.bashrc" "${HOME}/.bashrc"
-ln -sf "${SCRIPT_DIR}/.tmux.conf" "${HOME}/.tmux.conf"
-[ -f "${SCRIPT_DIR}/.vimrc" ] && ln -sf "${SCRIPT_DIR}/.vimrc" "${HOME}/.vimrc"
+ln -sf "${SCRIPT_DIR}/shell/.bashrc" "${HOME}/.bashrc"
+ln -sf "${SCRIPT_DIR}/shell/.tmux.conf" "${HOME}/.tmux.conf"
+[ -f "${SCRIPT_DIR}/shell/.vimrc" ] && ln -sf "${SCRIPT_DIR}/shell/.vimrc" "${HOME}/.vimrc"
 
 # Directory configs
 mkdir -p "${HOME}/.config/fish"
@@ -148,6 +151,11 @@ fi
 if command -v nvim >/dev/null 2>&1; then
   log "Syncing Neovim plugins..."
   nvim --headless "+Lazy! sync" +qa 2>/dev/null || true
+fi
+
+# Reload tmux server if running
+if command -v tmux >/dev/null 2>&1; then
+  tmux source-file "${HOME}/.tmux.conf" 2>/dev/null || true
 fi
 
 ok "Deployment complete! Run 'exec fish' to start your session."
