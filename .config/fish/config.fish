@@ -89,22 +89,6 @@ function setup_eza_aliases --description "Set eza aliases based on NERD_FONT sta
     end
 end
 
-
-# ==============================================================================
-# SSH Hostname & Alias Pass-Through Hook
-# ==============================================================================
-function ssh --wraps=ssh --description "Wrap ssh to forward connection alias"
-    set -l target "$argv[1]"
-    for arg in $argv
-        if not string match -q -- "-*" $arg
-            set target $arg
-            break
-        end
-    end
-
-    env LC_SSH_ALIAS="$target" command ssh -o "SendEnv LC_SSH_ALIAS" $argv
-end
-
 # Windows interop helper
 function tshark --wraps=tshark
     /mnt/c/Program\ Files/Wireshark/tshark.exe $argv
