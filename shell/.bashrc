@@ -60,11 +60,13 @@ else
 fi
 
 # -----------------------------------------------------------------------------
-# Auto-launch Fish in User Space
+# Safe Auto-Launch Fish in User Space
 # -----------------------------------------------------------------------------
 export PATH="${HOME}/.local/bin:${PATH}"
 
-# If interactive, not already in fish, and fish exists in ~/.local/bin:
-if [[ $- == *i* ]] && [ -z "$FISH_VERSION" ] && command -v fish >/dev/null 2>&1; then
-    exec fish
+# Test if fish actually executes cleanly before replacing the shell
+if [[ $- == *i* ]] && [ -z "$FISH_VERSION" ]; then
+    if command -v fish >/dev/null 2>&1 && fish -c "exit 0" >/dev/null 2>&1; then
+        exec fish
+    fi
 fi
