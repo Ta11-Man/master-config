@@ -37,7 +37,7 @@ trim_at = ".cs.purdue.edu"
 # -----------------------------------------------------------------------------
 [directory]
 style = "bold #3379C5"
-format = "in [$path]($style) "
+format = " [$path]($style) "
 truncation_length = 3
 truncation_symbol = ".../"
 home_symbol = "~"

@@ -1,6 +1,27 @@
+# config.fish
+
 # ==============================================================================
-# 1. Terminal Font & Environment Detection
+# Interactive Mode Toggles
 # ==============================================================================
+function plain --description "Switch Starship, eza, and Tmux to ASCII mode"
+    set -gx NERD_FONT 0
+    set -gx STARSHIP_CONFIG "$HOME/.config/starship-plain.toml"
+    setup_eza_aliases
+    if test -n "$TMUX"
+        tmux source-file ~/.tmux.conf >/dev/null 2>&1
+    end
+end
+
+function fancy --description "Switch Starship, eza, and Tmux to Nerd Font mode"
+    set -gx NERD_FONT 1
+    set -gx STARSHIP_CONFIG "$HOME/.config/starship.toml"
+    setup_eza_aliases
+    if test -n "$TMUX"
+        tmux source-file ~/.tmux.conf >/dev/null 2>&1
+    end
+end
+
+
 # -----------------------------------------------------------------------------
 # Smart Font Mode Detection
 # -----------------------------------------------------------------------------
@@ -40,7 +61,7 @@ if not test -f /tmp/.os_glyph_$USER
 end
 
 # ==============================================================================
-# 2. Dynamic Eza / LS Configuration
+# Dynamic Eza / LS Configuration
 # ==============================================================================
 function setup_eza_aliases --description "Set eza aliases based on NERD_FONT state"
     if type -q eza
@@ -68,29 +89,9 @@ function setup_eza_aliases --description "Set eza aliases based on NERD_FONT sta
     end
 end
 
-# ==============================================================================
-# 3. Interactive Mode Toggles
-# ==============================================================================
-function plain --description "Switch Starship, eza, and Tmux to ASCII mode"
-    set -gx NERD_FONT 0
-    set -gx STARSHIP_CONFIG "$HOME/.config/starship-plain.toml"
-    setup_eza_aliases
-    if test -n "$TMUX"
-        tmux source-file ~/.tmux.conf >/dev/null 2>&1
-    end
-end
-
-function fancy --description "Switch Starship, eza, and Tmux to Nerd Font mode"
-    set -gx NERD_FONT 1
-    set -gx STARSHIP_CONFIG "$HOME/.config/starship.toml"
-    setup_eza_aliases
-    if test -n "$TMUX"
-        tmux source-file ~/.tmux.conf >/dev/null 2>&1
-    end
-end
 
 # ==============================================================================
-# 4. SSH Hostname & Alias Pass-Through Hook
+# SSH Hostname & Alias Pass-Through Hook
 # ==============================================================================
 function ssh --wraps=ssh --description "Wrap ssh to forward connection alias"
     set -l target "$argv[1]"
@@ -116,14 +117,14 @@ function fish_greeting
 end
 
 # ==============================================================================
-# 5. Path Management (Fish Built-in Idempotent Paths)
+# Path Management (Fish Built-in Idempotent Paths)
 # ==============================================================================
 fish_add_path -g $HOME/.local/bin
 fish_add_path -g $HOME/.cargo/bin
 fish_add_path -g $HOME/.local/share/nvim/mason/bin
 
 # ==============================================================================
-# 6. Interactive Session Initialization & Tooling
+# Interactive Session Initialization & Tooling
 # ==============================================================================
 if status is-interactive
     # Setup initial LS alias state
