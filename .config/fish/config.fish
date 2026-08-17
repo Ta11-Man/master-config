@@ -1,6 +1,35 @@
 # config.fish
 
 # ==============================================================================
+# Dynamic Eza / LS Configuration
+# ==============================================================================
+function setup_eza_aliases --description "Set eza aliases based on NERD_FONT state"
+    if type -q eza
+        set -l eza_common "--group-directories-first" "--git"
+
+        if test "$NERD_FONT" = "0"
+            # Plain Mode: Standard ASCII classification marks
+            alias ls="eza $eza_common --no-icons --classify"
+            alias ll="eza $eza_common --no-icons --classify -lh"
+            alias la="eza $eza_common --no-icons --classify -a"
+            alias lla="eza $eza_common --no-icons --classify -lah"
+            alias tree="eza $eza_common --no-icons --classify --tree"
+        else
+            # Fancy Mode: Explicit value prevents eza from swallowing target directory paths
+            alias ls="eza $eza_common --icons=auto"
+            alias ll="eza $eza_common --icons=auto -lh"
+            alias la="eza $eza_common --icons=auto -a"
+            alias lla="eza $eza_common --icons=auto -lah"
+            alias tree="eza $eza_common --icons=auto --tree"
+        end
+    else
+        alias ls="ls --color=auto"
+        alias ll="ls -lh --color=auto"
+        alias la="ls -A --color=auto"
+    end
+end
+
+# ==============================================================================
 # Interactive Mode Toggles
 # ==============================================================================
 function plain --description "Switch Starship, eza, and Tmux to ASCII mode"
@@ -57,35 +86,6 @@ if not test -f /tmp/.os_glyph_$USER
             echo -n "" > /tmp/.os_glyph_$USER
         case '*'
             echo -n "󰌽" > /tmp/.os_glyph_$USER
-    end
-end
-
-# ==============================================================================
-# Dynamic Eza / LS Configuration
-# ==============================================================================
-function setup_eza_aliases --description "Set eza aliases based on NERD_FONT state"
-    if type -q eza
-        set -l eza_common "--group-directories-first" "--git"
-
-        if test "$NERD_FONT" = "0"
-            # Plain Mode: Standard ASCII classification marks
-            alias ls="eza $eza_common --no-icons --classify"
-            alias ll="eza $eza_common --no-icons --classify -lh"
-            alias la="eza $eza_common --no-icons --classify -a"
-            alias lla="eza $eza_common --no-icons --classify -lah"
-            alias tree="eza $eza_common --no-icons --classify --tree"
-        else
-            # Fancy Mode: Explicit value prevents eza from swallowing target directory paths
-            alias ls="eza $eza_common --icons=auto"
-            alias ll="eza $eza_common --icons=auto -lh"
-            alias la="eza $eza_common --icons=auto -a"
-            alias lla="eza $eza_common --icons=auto -lah"
-            alias tree="eza $eza_common --icons=auto --tree"
-        end
-    else
-        alias ls="ls --color=auto"
-        alias ll="ls -lh --color=auto"
-        alias la="ls -A --color=auto"
     end
 end
 
