@@ -3,7 +3,7 @@
 My bunch of dotfiles all in one place.
 
 ```bash
-git clone <your-repo-url> ~/master-config
+git clone https://github.com/Ta11-Man/master-config.git
 cd ~/master-config
 chmod +x install.sh
 ./install.sh
