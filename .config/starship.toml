@@ -19,7 +19,7 @@ $character"""
 command_timeout = 50
 
 # -----------------------------------------------------------------------------
-# Fast OS & Username
+# OS & Username Pill (Swedish Blue)
 # -----------------------------------------------------------------------------
 [os]
 disabled = true
@@ -27,50 +27,50 @@ disabled = true
 [custom.fast_os]
 command = "awk -F= '$1==\"ID\"{print $2}' /etc/os-release | tr -d '\"'"
 when = "test -f /etc/os-release"
-style = "bg:#0057B7 fg:#FBD951"
+style = "bg:#0057B7 fg:#FBD951 bold"
 format = "[](fg:#0057B7)[󰣇 ]($style)"
 
 [username]
 show_always = true
-style_user = "bg:#0057B7 fg:#FBD951"
+style_user = "bg:#0057B7 fg:#FBD951 bold"
 style_root = "bg:#0057B7 fg:#FF5555 bold"
-format = "[$user]($style)[](fg:#0057B7 bg:#FBD951)"
+format = "[$user]($style)[](fg:#0057B7) "
 
 # -----------------------------------------------------------------------------
-# SSH Hostname
+# SSH Hostname Pill (Active only over SSH)
 # -----------------------------------------------------------------------------
 [hostname]
 ssh_only = true
-format = "[ $ssh_symbol$hostname ]($style)[](fg:#89b4fa bg:#FBD951)"
+style = "bg:#3379C5 fg:#FFFFFF bold"
+format = "[](fg:#3379C5)[$ssh_symbol$hostname]($style)[](fg:#3379C5) "
 ssh_symbol = " "
-style = "bg:#89b4fa fg:#11111b bold"
 trim_at = ".cs.purdue.edu"
 
 # -----------------------------------------------------------------------------
-# Directory
+# Directory Pill (Swedish Yellow)
 # -----------------------------------------------------------------------------
 [directory]
-style = "bg:#FBD951 fg:#3379C5 bold"
-format = "[ $path ]($style)[](fg:#FBD951 bg:#0057B7)"
+style = "bg:#FBD951 fg:#0057B7 bold"
+format = "[](fg:#FBD951)[$path]($style)[](fg:#FBD951) "
 truncation_length = 3
 truncation_symbol = "…/"
 home_symbol = "󱂵 ~"
 
 # -----------------------------------------------------------------------------
-# Git
+# Git Pill (Swedish Blue)
 # -----------------------------------------------------------------------------
 [git_branch]
 symbol = " "
-style = "bg:#0057B7 fg:#FBD951"
-format = "[ $symbol$branch ]($style)"
+style = "bg:#0057B7 fg:#FBD951 bold"
+format = "[](fg:#0057B7)[$symbol$branch]($style)"
 
 [git_status]
-style = "bg:#0057B7 fg:#FBD951"
-format = "([$all_status$ahead_behind]($style))[](fg:#0057B7 bg:#3379C5)"
+style = "bg:#0057B7 fg:#FBD951 bold"
+format = "([ $all_status$ahead_behind]($style))[](fg:#0057B7) "
 conflicted = "🏳 "
-ahead = "⇡${count} "
-behind = "⇣${count} "
-diverged = "⇡${ahead_count}⇣${behind_count} "
+ahead = "⇡${count}"
+behind = "⇣${count}"
+diverged = "⇡${ahead_count}⇣${behind_count}"
 untracked = " "
 stashed = " "
 modified = " "
@@ -79,50 +79,45 @@ renamed = "󰑕 "
 deleted = "󰍵 "
 
 # -----------------------------------------------------------------------------
-# Languages
+# Language Modules (Soft Blue)
 # -----------------------------------------------------------------------------
 [c]
 symbol = " "
-style = "bg:#3379C5 fg:#FFFFFF"
-format = "[ $symbol($version) ]($style)"
+style = "bg:#3379C5 fg:#FFFFFF bold"
+format = "[](fg:#3379C5)[$symbol($version)]($style)[](fg:#3379C5) "
 
 [rust]
 symbol = " "
-style = "bg:#3379C5 fg:#FFFFFF"
-format = "[ $symbol($version) ]($style)"
+style = "bg:#3379C5 fg:#FFFFFF bold"
+format = "[](fg:#3379C5)[$symbol($version)]($style)[](fg:#3379C5) "
 
 [python]
 symbol = " "
-style = "bg:#3379C5 fg:#FFFFFF"
-format = "[ $symbol($version) ]($style)"
+style = "bg:#3379C5 fg:#FFFFFF bold"
+format = "[](fg:#3379C5)[$symbol($version)]($style)[](fg:#3379C5) "
 
 [nodejs]
 symbol = " "
-style = "bg:#3379C5 fg:#FFFFFF"
-format = "[ $symbol($version) ]($style)"
+style = "bg:#3379C5 fg:#FFFFFF bold"
+format = "[](fg:#3379C5)[$symbol($version)]($style)[](fg:#3379C5) "
 
 # -----------------------------------------------------------------------------
 # Duration & Status
 # -----------------------------------------------------------------------------
 [cmd_duration]
 min_time = 2_000
-style = "bg:#3379C5 fg:#FBD951"
-format = "[  $duration ]($style)"
+style = "bg:#3379C5 fg:#FBD951 bold"
+format = "[](fg:#3379C5)[ $duration]($style)[](fg:#3379C5) "
 
 [status]
 disabled = false
-style = "bg:#3379C5 fg:#FFD700"
-format = "[$symbol]($style)[](fg:#3379C5)"
-symbol = " "
-success_symbol = " "
-not_executable_symbol = " "
-not_found_symbol = " "
-sigint_symbol = " "
-signal_symbol = "󱐋 "
+style = "bg:#FF5555 fg:#FFFFFF bold"
+format = "[](fg:#FF5555)[$symbol$status]($style)[](fg:#FF5555) "
+symbol = "✘ "
 map_symbol = true
 
 # -----------------------------------------------------------------------------
-# Character Line & Disabled Builtins
+# Prompt Line
 # -----------------------------------------------------------------------------
 [character]
 success_symbol = "[➜](bold #FBD951)"
