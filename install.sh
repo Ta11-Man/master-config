@@ -125,7 +125,8 @@ ln -sf "${SCRIPT_DIR}/shell/.tmux.conf" "${HOME}/.tmux.conf"
 # Directory configs
 mkdir -p "${HOME}/.config/fish"
 ln -sf "${SCRIPT_DIR}/.config/fish/config.fish" "${HOME}/.config/fish/config.fish"
-ln -sfn "${SCRIPT_DIR}/.config/nvim" "${HOME}/.config/nvim"
+mv "${HOME}/.config/nvim" /tmp/nvim-backup 2>/dev/null || true
+ln -sfn "${SCRIPT_DIR}/.config/nvim" "${HOME}/.config"
 ln -sfn "${SCRIPT_DIR}/.config/alacritty" "${HOME}/.config/alacritty"
 
 # Starship configs
