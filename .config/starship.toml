@@ -28,7 +28,7 @@ disabled = true
 command = "cat /tmp/.os_glyph_$USER"
 when = "test -f /tmp/.os_glyph_$USER"
 style = "bg:#0057B7 fg:#FBD951 bold"
-format = "[](fg:#0057B7)[$output ]($style)"
+format = "[](fg:#0057B7)[$output ]($style)[](fg:#0057B7)"
 
 [username]
 show_always = true
