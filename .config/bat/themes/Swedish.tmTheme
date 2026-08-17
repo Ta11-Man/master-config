@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>name</key>
+    <string>Swedish</string>
+    <key>settings</key>
+    <array>
+        <dict>
+            <key>settings</key>
+            <dict>
+                <key>background</key>
+                <string>#0B1B3D</string> <!-- Deep Navy Background -->
+                <key>foreground</key>
+                <string>#FFFFFF</string>
+                <key>caret</key>
+                <string>#FBD951</string>
+                <key>selection</key>
+                <string>#3379C5</string>
+            </dict>
+        </dict>
+        <dict>
+            <key>name</key>
+            <string>Keywords and Strings</string>
+            <key>scope</key>
+            <string>keyword, string</string>
+            <key>settings</key>
+            <dict>
+                <key>foreground</key>
+                <string>#FBD951</string> <!-- Swedish Yellow -->
+            </dict>
+        </dict>
+        <dict>
+            <key>name</key>
+            <string>Functions and Types</string>
+            <key>scope</key>
+            <string>entity.name.function, entity.name.type</string>
+            <key>settings</key>
+            <dict>
+                <key>foreground</key>
+                <string>#3379C5</string> <!-- Soft Blue -->
+            </dict>
+        </dict>
+    </array>
+</dict>
+</plist>

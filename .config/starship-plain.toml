@@ -1,0 +1,110 @@
+"$schema" = 'https://starship.rs/config-schema.json'
+
+format = """
+$username\
+$hostname\
+$directory\
+$git_branch\
+$git_status\
+$c\
+$rust\
+$python\
+$nodejs\
+$cmd_duration\
+$status\
+$line_break\
+$character"""
+
+command_timeout = 50
+
+# -----------------------------------------------------------------------------
+# Username & Hostname
+# -----------------------------------------------------------------------------
+[username]
+show_always = true
+style_user = "bold #FBD951"
+style_root = "bold red"
+format = "[$user]($style)"
+
+[hostname]
+ssh_only = true
+style = "bold #3379C5"
+format = "[@$hostname]($style) "
+trim_at = ".cs.purdue.edu"
+
+# -----------------------------------------------------------------------------
+# Directory
+# -----------------------------------------------------------------------------
+[directory]
+style = "bold #3379C5"
+format = "in [$path]($style) "
+truncation_length = 3
+truncation_symbol = ".../"
+home_symbol = "~"
+
+# -----------------------------------------------------------------------------
+# Git
+# -----------------------------------------------------------------------------
+[git_branch]
+style = "bold #FBD951"
+format = "on [$branch]($style)"
+
+[git_status]
+style = "bold red"
+format = "([$all_status$ahead_behind]($style)) "
+conflicted = "="
+ahead = ">${count}"
+behind = "<${count}"
+diverged = "<>${ahead_count}/${behind_count}"
+untracked = "?"
+stashed = "$"
+modified = "!"
+staged = "+"
+renamed = "»"
+deleted = "x"
+
+# -----------------------------------------------------------------------------
+# Languages
+# -----------------------------------------------------------------------------
+[c]
+style = "dimmed white"
+format = "via [C ($version)]($style) "
+
+[rust]
+style = "dimmed white"
+format = "via [Rust ($version)]($style) "
+
+[python]
+style = "dimmed white"
+format = "via [Py ($version)]($style) "
+
+[nodejs]
+style = "dimmed white"
+format = "via [Node ($version)]($style) "
+
+# -----------------------------------------------------------------------------
+# Duration & Status
+# -----------------------------------------------------------------------------
+[cmd_duration]
+min_time = 2_000
+style = "dimmed #FBD951"
+format = "took [$duration]($style) "
+
+[status]
+disabled = false
+style = "bold red"
+format = "[$symbol$status]($style) "
+symbol = "x"
+
+# -----------------------------------------------------------------------------
+# Character Line & Disabled Builtins
+# -----------------------------------------------------------------------------
+[character]
+success_symbol = "[➜](bold #FBD951)"
+error_symbol = "[➜](bold #FF5555)"
+
+[docker_context]
+disabled = true
+
+[package]
+disabled = true

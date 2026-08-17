@@ -1,62 +1,135 @@
-# ~/.config/starship.toml
-add_newline = false
-
-# Palette Definitions (using modern blue hues)
-# Backgrounds: lightest_blue: #89b4fa, medium_blue: #74c7ec, darkest_blue: #1e1e2e
-# Foregrounds: dark_text: #11111b, light_text: #cdd6f4
+"$schema" = 'https://starship.rs/config-schema.json'
 
 format = """
-[░▒▓](#74c7ec)\
-[ 󰣇 Arch ](bg:#74c7ec fg:#11111b)\
-[](bg:#89b4fa fg:#74c7ec)\
+$custom\
+$username\
 $hostname\
 $directory\
-[](fg:#89b4fa bg:#313244)\
 $git_branch\
 $git_status\
-[](fg:#313244 bg:#1e1e2e)\
-$time\
-[ ](fg:#1e1e2e)\
+$c\
+$rust\
+$python\
+$nodejs\
+$cmd_duration\
+$status\
+$line_break\
 $character"""
 
+command_timeout = 50
+
+# -----------------------------------------------------------------------------
+# Fast OS & Username
+# -----------------------------------------------------------------------------
+[os]
+disabled = true
+
+[custom.fast_os]
+command = "awk -F= '$1==\"ID\"{print $2}' /etc/os-release | tr -d '\"'"
+when = "test -f /etc/os-release"
+style = "bg:#0057B7 fg:#FBD951"
+format = "[](fg:#0057B7)[󰣇 ]($style)"
+
+[username]
+show_always = true
+style_user = "bg:#0057B7 fg:#FBD951"
+style_root = "bg:#0057B7 fg:#FF5555 bold"
+format = "[$user]($style)[](fg:#0057B7 bg:#FBD951)"
+
+# -----------------------------------------------------------------------------
+# SSH Hostname
+# -----------------------------------------------------------------------------
+[hostname]
+ssh_only = true
+format = "[ $ssh_symbol$hostname ]($style)[](fg:#89b4fa bg:#FBD951)"
+ssh_symbol = " "
+style = "bg:#89b4fa fg:#11111b bold"
+trim_at = ".cs.purdue.edu"
+
+# -----------------------------------------------------------------------------
+# Directory
+# -----------------------------------------------------------------------------
 [directory]
-# Blue background (#89b4fa)
-style = "fg:#11111b bg:#89b4fa"
-format = "[ $path ]($style)"
+style = "bg:#FBD951 fg:#3379C5 bold"
+format = "[ $path ]($style)[](fg:#FBD951 bg:#0057B7)"
 truncation_length = 3
 truncation_symbol = "…/"
+home_symbol = "󱂵 ~"
 
+# -----------------------------------------------------------------------------
+# Git
+# -----------------------------------------------------------------------------
 [git_branch]
-# Darker blue background (#313244)
-style = "bg:#313244"
-format = '[[ $symbol $branch ](fg:#89b4fa bg:#313244)]($style)'
-symbol = " "
+symbol = " "
+style = "bg:#0057B7 fg:#FBD951"
+format = "[ $symbol$branch ]($style)"
 
 [git_status]
-# Keeps red text for status, on the dark background
-style = "bg:#313244"
-format = '[[($all_status$ahead_behind )](fg:#f38ba8 bg:#313244)]($style)'
+style = "bg:#0057B7 fg:#FBD951"
+format = "([$all_status$ahead_behind]($style))[](fg:#0057B7 bg:#3379C5)"
+conflicted = "🏳 "
+ahead = "⇡${count} "
+behind = "⇣${count} "
+diverged = "⇡${ahead_count}⇣${behind_count} "
+untracked = " "
+stashed = " "
+modified = " "
+staged = " "
+renamed = "󰑕 "
+deleted = "󰍵 "
 
-[time]
+# -----------------------------------------------------------------------------
+# Languages
+# -----------------------------------------------------------------------------
+[c]
+symbol = " "
+style = "bg:#3379C5 fg:#FFFFFF"
+format = "[ $symbol($version) ]($style)"
+
+[rust]
+symbol = " "
+style = "bg:#3379C5 fg:#FFFFFF"
+format = "[ $symbol($version) ]($style)"
+
+[python]
+symbol = " "
+style = "bg:#3379C5 fg:#FFFFFF"
+format = "[ $symbol($version) ]($style)"
+
+[nodejs]
+symbol = " "
+style = "bg:#3379C5 fg:#FFFFFF"
+format = "[ $symbol($version) ]($style)"
+
+# -----------------------------------------------------------------------------
+# Duration & Status
+# -----------------------------------------------------------------------------
+[cmd_duration]
+min_time = 2_000
+style = "bg:#3379C5 fg:#FBD951"
+format = "[  $duration ]($style)"
+
+[status]
 disabled = false
-time_format = "%R"
-# Deep navy/black background (#1e1e2e)
-style = "bg:#1e1e2e"
-format = '[[  $time ](fg:#cdd6f4 bg:#1e1e2e)]($style)'
+style = "bg:#3379C5 fg:#FFD700"
+format = "[$symbol]($style)[](fg:#3379C5)"
+symbol = " "
+success_symbol = " "
+not_executable_symbol = " "
+not_found_symbol = " "
+sigint_symbol = " "
+signal_symbol = "󱐋 "
+map_symbol = true
 
+# -----------------------------------------------------------------------------
+# Character Line & Disabled Builtins
+# -----------------------------------------------------------------------------
 [character]
-success_symbol = "[❯](bold green)"
-error_symbol = "[❯](bold red)"
+success_symbol = "[➜](bold #FBD951)"
+error_symbol = "[➜](bold #FF5555)"
 
 [docker_context]
 disabled = true
 
 [package]
 disabled = true
-
-[hostname]
-ssh_only = true               # Only show when inside an active SSH connection
-format = "[$ssh_symbol$hostname ]($style)"
-ssh_symbol = "󰌘 "             # Or " ", " "
-style = "bg:#89b4fa fg:#11111b bold"
-trim_at = ".cs.purdue.edu"   # Strips domain suffixes so 'data.cs.purdue.edu' becomes 'data'
