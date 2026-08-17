@@ -1,12 +1,42 @@
 # ==============================================================================
 # 1. Terminal Font & Environment Detection
 # ==============================================================================
-if test -n "$SSH_CONNECTION" -o -n "$SSH_CLIENT" -o "$TERM" = "linux" -o "$TERM" = "dumb"
-    set -gx NERD_FONT 0
-    set -gx STARSHIP_CONFIG "$HOME/.config/starship-plain.toml"
+# -----------------------------------------------------------------------------
+# Smart Font Mode Detection
+# -----------------------------------------------------------------------------
+# If connecting from a modern emulator (Alacritty, WezTerm, Ghostty, Kitty, iTerm), default to fancymode
+if test "$TERM_PROGRAM" = "ghostty" -o "$TERM_PROGRAM" = "WezTerm" -o "$TERM_PROGRAM" = "iTerm.app" -o "$TERM" = "alacritty" -o "$TERM" = "xterm-ghostty"
+    fancy
 else
-    set -gx NERD_FONT 1
-    set -gx STARSHIP_CONFIG "$HOME/.config/starship.toml"
+    # Default to fancymode unless explicitly set to 0 in your environment
+    if not set -q NERD_FONT
+        fancy
+    else if test "$NERD_FONT" = "1"
+        fancy
+    else
+        plain
+    end
+end
+
+# Cache the OS distro icon to /tmp once per session (for starship)
+if not test -f /tmp/.os_glyph_$USER
+    set -l os_id (awk -F= '$1=="ID"{gsub("\"", "", $2); print $2; exit}' /etc/os-release 2>/dev/null)
+    switch "$os_id"
+        case "ubuntu"
+            echo -n "" > /tmp/.os_glyph_$USER
+        case "arch"
+            echo -n "󰣇" > /tmp/.os_glyph_$USER
+        case "debian"
+            echo -n "" > /tmp/.os_glyph_$USER
+        case "fedora"
+            echo -n "" > /tmp/.os_glyph_$USER
+        case "rhel" "centos"
+            echo -n "" > /tmp/.os_glyph_$USER
+        case "alpine"
+            echo -n "" > /tmp/.os_glyph_$USER
+        case '*'
+            echo -n "󰌽" > /tmp/.os_glyph_$USER
+    end
 end
 
 # ==============================================================================
@@ -24,7 +54,7 @@ function setup_eza_aliases --description "Set eza aliases based on NERD_FONT sta
             alias lla="eza $eza_common --no-icons --classify -lah"
             alias tree="eza $eza_common --no-icons --classify --tree"
         else
-            # Rich Mode: Explicit value prevents eza from swallowing target directory paths
+            # Fancy Mode: Explicit value prevents eza from swallowing target directory paths
             alias ls="eza $eza_common --icons=auto"
             alias ll="eza $eza_common --icons=auto -lh"
             alias la="eza $eza_common --icons=auto -a"
@@ -41,7 +71,7 @@ end
 # ==============================================================================
 # 3. Interactive Mode Toggles
 # ==============================================================================
-function plainmode --description "Switch Starship, eza, and Tmux to ASCII mode"
+function plain --description "Switch Starship, eza, and Tmux to ASCII mode"
     set -gx NERD_FONT 0
     set -gx STARSHIP_CONFIG "$HOME/.config/starship-plain.toml"
     setup_eza_aliases
@@ -50,7 +80,7 @@ function plainmode --description "Switch Starship, eza, and Tmux to ASCII mode"
     end
 end
 
-function richmode --description "Switch Starship, eza, and Tmux to Nerd Font mode"
+function fancy --description "Switch Starship, eza, and Tmux to Nerd Font mode"
     set -gx NERD_FONT 1
     set -gx STARSHIP_CONFIG "$HOME/.config/starship.toml"
     setup_eza_aliases
